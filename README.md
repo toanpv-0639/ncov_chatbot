@@ -6,6 +6,9 @@
 * Spacy 
 * Django 
 
+```python
+pip install -r requirements.txt
+```
 ## Some demo 
 
 ![](https://images.viblo.asia/7e7432e6-fd83-4dec-a885-bdec6e242456.png)
