@@ -161,7 +161,7 @@ twilio==6.35.4
 tzlocal==2.0.0
 ujson==1.35
 uritemplate==3.0.1
-urllib3==1.22
+urllib3==1.24.2
 uvloop==0.14.0
 vi-spacy-model==0.2.1
 wasabi==0.6.0
