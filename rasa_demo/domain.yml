@@ -1,0 +1,9 @@
+intents:
+  - ask_death
+  - ask_confirm
+  - ask_resolve
+  - ask_all
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,11 @@
+# Configuration for Rasa NLU.
+# https://rasa.com/docs/rasa/nlu/components/
+language: vi
+pipeline: supervised_embeddings
+
+# Configuration for Rasa Core.
+# https://rasa.com/docs/rasa/core/policies/
+policies:
+  - name: EmbeddingPolicy
+  - name: KerasPolicy
+  - name: MappingPolicy
