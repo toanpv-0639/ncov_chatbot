@@ -74,18 +74,20 @@ def get_data(category):
     total_case, new_case, deaths_case, new_deaths, recover_case = summary(col, 'All')
     vn_total_case, vn_new_case, vn_deaths_case, vn_new_deaths, vn_recover_case = summary(col, 'Vietnam')
     cn_total_case, cn_new_case, cn_deaths_case, cn_new_deaths, cn_recover_case = summary(col, 'China')
+    sk_total_case, sk_new_case, sk_deaths_case, sk_new_deaths, sk_recover_case = summary(col, 'S. Korea')
     # Return the final data.
     if category == 'deaths':
-        latest, vn_latest, cn_latest = deaths_case, vn_deaths_case, cn_deaths_case
+        latest, vn_latest, cn_latest, sk_latest = deaths_case, vn_deaths_case, cn_deaths_case, sk_deaths_case
     elif category == 'recovered':
-        latest, vn_latest, cn_latest = recover_case, vn_recover_case, cn_recover_case
+        latest, vn_latest, cn_latest, sk_latest = recover_case, vn_recover_case, cn_recover_case, sk_recover_case
     else:
-        latest, vn_latest, cn_latest = total_case, vn_total_case, cn_total_case
+        latest, vn_latest, cn_latest, sk_latest = total_case, vn_total_case, cn_total_case, sk_total_case
 
     return {
         'latest': latest,
         'vn_latest': vn_latest,
         'cn_latest': cn_latest,
+        'sk_latest': sk_latest,
         'global_latest': latest - vn_latest,
         'last_updated': last_updated
     }
@@ -108,12 +110,14 @@ def statistic(category):
     return "Hiện tại đã có {} người {}.\n" \
            "Tại Việt Nam có {} người\n" \
            "Tại Trung Quốc có {} người\n" \
+           "Tại Hàn Quốc có {} người\n" \
            "Trên toàn cầu có {} người\n" \
            "Cập nhật mới nhất vào {}".format(
         data['latest'],
         category_map[category],
         data['vn_latest'],
         data['cn_latest'],
+        data['sk_latest'],
         data['global_latest'],
         data['last_updated'])
 
