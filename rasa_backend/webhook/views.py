@@ -1,6 +1,8 @@
-from django.views.decorators.csrf import csrf_exempt
 import json
+
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from webhook.helpers.chatbot_helpers import RasaHelpers
 from webhook.helpers.chatwork_helpers import Chatwork
 
@@ -11,12 +13,11 @@ def decode_payload(request):
 
 
 def handle_payload(payload):
-    if payload['webhook_event_type'] == 'mention_to_me':
+    if payload['webhook_event_type'] == 'mention_to_me' and '[toall]' not in payload['webhook_event']['body']:
         rasa = RasaHelpers()
         chatwork = Chatwork()
         message_body = payload['webhook_event']['body'].split('\n')[-1]
         bot_response = rasa.handle_message(message_body)
-
         message_reply_chatwork = chatwork.reply_message(
             account_id=int(payload['webhook_event']['from_account_id']),
             room_id=int(payload['webhook_event']['room_id']),
