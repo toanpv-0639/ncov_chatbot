@@ -58,7 +58,7 @@ def generate_all_message(col, i):
     name, total, new, death, new_death, recover = [col[j][1][i] for j in range(0, 6)]
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
-    return "Tại {} đã có {} ca nhiễm ({}) tử vong {} ({}) chữa khỏi {}\n".format(name, total, new, death, new_death,
+    return "Tại {} đã có {} ca nhiễm ({} ca), tử vong {} ({} ca), chữa khỏi {}\n".format(name, total, new, death, new_death,
                                                                                  recover)
 
 
