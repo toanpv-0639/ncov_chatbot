@@ -60,7 +60,7 @@ def generate_all_message(col, i):
     name = translator.translate(name, dest='vi').text
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
-    return "Tại {} đã có {} ca nhiễm ({} ca), tử vong {} ca ({} ca), chữa khỏi {} ca\n".format(name, total, new, death, new_death,
+    return "{}: nhiễm {} ({}), chết {} ({}), chữa khỏi {}\n".format(name, total, new, death, new_death,
                                                                                  recover)
 
 def get_data():
