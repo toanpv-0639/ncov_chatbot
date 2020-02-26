@@ -71,8 +71,7 @@ def generate_all_message(col, i):
     name = convert_name(name)
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
-    return "{}: 😷 {} ({}), 💀 {} ({}), 💊 {}\n".format(name, total, new, death, new_death,
-                                                                                 recover)
+    return "{}: 😷 {} ({}), 💀 {} ({}), 💊 {}\n".format(name, total, new, death, new_death, recover)
 
 def get_data():
     col, last_updated = crawler()
