@@ -69,6 +69,7 @@ def get_data():
     for i in range(n):
         msg += generate_all_message(col, i)
     msg += "\nCập nhật mới nhất vào {}".format(last_updated)
+    return msg
 
 
 def handle_data(intent):
@@ -86,3 +87,5 @@ def handle_data(intent):
         return "Chatbot chưa xử lý được nội dung bạn nói."
     except:
         return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
+
+print(handle_data('ask_all'))
