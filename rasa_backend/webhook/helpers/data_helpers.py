@@ -65,7 +65,7 @@ def generate_all_message(col, i):
 def get_data():
     col, last_updated = crawler()
     n = 10
-    msg = "Top {} địa danh có tình hình dịch nguy hiểm nhất.\n\n".format(n)
+    msg = "Top {} nơi có tình hình dịch nguy hiểm nhất.\n\n".format(n)
     for i in range(n):
         msg += generate_all_message(col, i)
     msg += "\nCập nhật mới nhất vào {}".format(last_updated)
