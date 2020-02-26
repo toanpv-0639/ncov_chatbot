@@ -55,9 +55,20 @@ def crawler():
     return col, last_updated
 
 
+def convert_name(name):
+    maps = {
+        'Diamond Princess': 'Tàu Diamond Princess',
+        'Italy': 'Ý',
+        'Thailand': 'Thái Lan',
+        'Hong Kong': 'Hồng Kông'
+    }
+    if name in maps.keys():
+        return maps[name]
+    return translator.translate(name, dest='vi').text
+
 def generate_all_message(col, i):
     name, total, new, death, new_death, recover = [col[j][1][i] for j in range(0, 6)]
-    name = translator.translate(name, dest='vi').text
+    name = convert_name(name)
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
     return "{}: nhiễm {} ({}), chết {} ({}), chữa khỏi {}\n".format(name, total, new, death, new_death,
