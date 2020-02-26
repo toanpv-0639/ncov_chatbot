@@ -3,9 +3,10 @@ import re
 import lxml.html as lh
 import requests
 from cachetools import cached, TTLCache
-
+from googletrans import Translator
 from webhook.helpers.date_helpers import to_date
 
+translator = Translator()
 
 @cached(cache=TTLCache(maxsize=1024, ttl=3600))
 def crawler():
@@ -56,11 +57,11 @@ def crawler():
 
 def generate_all_message(col, i):
     name, total, new, death, new_death, recover = [col[j][1][i] for j in range(0, 6)]
+    name = translator.translate(name, dest='vi').text
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
     return "Tại {} đã có {} ca nhiễm ({} ca), tử vong {} ({} ca), chữa khỏi {}\n".format(name, total, new, death, new_death,
                                                                                  recover)
-
 
 def get_data():
     col, last_updated = crawler()
