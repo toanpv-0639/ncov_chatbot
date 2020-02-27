@@ -8,7 +8,7 @@ from webhook.helpers.date_helpers import to_date
 
 translator = Translator()
 
-@cached(cache=TTLCache(maxsize=1024, ttl=3600))
+@cached(cache=TTLCache(maxsize=10240, ttl=60))
 def crawler():
     url = 'https://www.worldometers.info/coronavirus/#countries'
     # Create a handle, page, to handle the contents of the website
