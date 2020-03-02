@@ -8,7 +8,7 @@ from webhook.helpers.date_helpers import to_date
 
 translator = Translator()
 
-@cached(cache=TTLCache(maxsize=10240, ttl=60))
+@cached(cache=TTLCache(maxsize=10240, ttl=300))
 def crawler():
     url = 'https://www.worldometers.info/coronavirus/#countries'
     # Create a handle, page, to handle the contents of the website
@@ -67,7 +67,7 @@ def convert_name(name):
     return translator.translate(name, dest='vi').text
 
 def generate_all_message(col, i):
-    name, total, new, death, new_death, recover = [col[j][1][i] for j in range(0, 6)]
+    name, total, new, death, new_death, active, recover = [col[j][1][i] for j in range(0, 7)]
     name = convert_name(name)
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
