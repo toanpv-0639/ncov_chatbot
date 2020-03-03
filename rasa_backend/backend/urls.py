@@ -20,5 +20,5 @@ from webhook import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chatwork_hook', views.chatwork_webhook),
-    path('facebook_hook', views.facebook_webhook),
+    path('facebook_hook', views.FacebookWebhookView.as_view()),
 ]
