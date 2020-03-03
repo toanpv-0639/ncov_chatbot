@@ -54,7 +54,7 @@ def facebook_webhook(request):
         return HttpResponse('Invalid Token !')
 
 
-FB_ENDPOINT = 'https://graph.facebook.com/v6.0/'
+FB_ENDPOINT = 'https://graph.facebook.com/v2.12/'
 PAGE_ACCESS_TOKEN = FB_TOKEN
 
 # bot.logic.py
