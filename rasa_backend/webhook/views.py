@@ -111,12 +111,7 @@ LOGIC_RESPONSES = {
 
 def parse_and_send_fb_message(fbid, recevied_message):
     # Remove all punctuations, lower case the text and split it based on space
-    tokens = re.sub(r"[^a-zA-Z0-9\s]", ' ', recevied_message).lower().split()
-    msg = None
-    for token in tokens:
-        if token in LOGIC_RESPONSES:
-            msg = random.choice(LOGIC_RESPONSES[token])
-            break
+    msg = get_bot_response(recevied_message)
 
     if msg is not None:
         endpoint = f"{FB_ENDPOINT}/me/messages?access_token={PAGE_ACCESS_TOKEN}"
