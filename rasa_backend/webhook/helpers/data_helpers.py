@@ -4,9 +4,11 @@ import lxml.html as lh
 import requests
 from cachetools import cached, TTLCache
 from googletrans import Translator
+
 from webhook.helpers.date_helpers import to_date
 
 translator = Translator()
+
 
 @cached(cache=TTLCache(maxsize=10240, ttl=300))
 def crawler():
@@ -66,6 +68,7 @@ def convert_name(name):
         return maps[name]
     return translator.translate(name, dest='vi').text
 
+
 def generate_all_message(col, i):
     name, total, new, death, new_death, active, recover = [col[j][1][i] for j in range(0, 7)]
     name = convert_name(name)
@@ -73,17 +76,19 @@ def generate_all_message(col, i):
     new_death = new_death if new_death else "+0"
     return "{}: 😷 {} [{}], 💀 {} [{}], 💊 {}\n".format(name, total, new, death, new_death, recover)
 
-def get_data():
+
+def get_data(top_k):
     col, last_updated = crawler()
-    n = 10
-    msg = "Top {} nơi có tình hình dịch nguy hiểm nhất.\n\n".format(n)
-    for i in range(n):
+    if top_k == -1:
+        top_k = len(col[0][1])
+    msg = "Top {} nơi có tình hình dịch nguy hiểm nhất.\n\n".format(top_k)
+    for i in range(top_k):
         msg += generate_all_message(col, i)
     msg += "\nCập nhật mới nhất vào {}".format(last_updated)
     return msg
 
 
-def handle_data(intent):
+def handle_data(intent, top_k):
     try:
         intent_map = {
             'ask_death': 'deaths',
@@ -93,10 +98,11 @@ def handle_data(intent):
             'fallback': 'fallback'
         }
         if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
-            return get_data()
+            return get_data(top_k)
         # When fallback
         return "Chatbot chưa xử lý được nội dung bạn nói."
     except:
         return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
 
-print(handle_data('ask_all'))
+
+print(handle_data('ask_all', -1))

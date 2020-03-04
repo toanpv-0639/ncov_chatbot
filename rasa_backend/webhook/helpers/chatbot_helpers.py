@@ -25,7 +25,7 @@ class RasaHelpers():
         response = requests.request("POST", self.url, data=json.dumps(payload), headers=self.headers)
         return json.loads(response.text)
 
-    def handle_message(self, message):
+    def handle_message(self, message, top_k):
         response = self.post_nlu(message)
         intent = self.detect_intent(response)
-        return handle_data(intent)
+        return handle_data(intent, top_k)
