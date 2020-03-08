@@ -30,7 +30,7 @@ def handle_chatwork_payload(payload):
             account_id=int(payload['webhook_event']['from_account_id']),
             room_id=int(payload['webhook_event']['room_id']),
             message_id=int(payload['webhook_event']['message_id']),
-            message=get_bot_response(message_body)
+            message=get_bot_response(message_body, 20)
         )
         chatwork.send_message(room_id=payload['webhook_event']['room_id'], message=message_reply_chatwork)
 
@@ -49,7 +49,7 @@ PAGE_ACCESS_TOKEN = FB_TOKEN
 
 def parse_and_send_fb_message(fbid, recevied_message):
     # Remove all punctuations, lower case the text and split it based on space
-    msg = get_bot_response(recevied_message, top_k=-1)
+    msg = get_bot_response(recevied_message, top_k=20)
 
     if msg is not None:
         endpoint = f"{FB_ENDPOINT}/me/messages?access_token={PAGE_ACCESS_TOKEN}"
