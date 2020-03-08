@@ -172,7 +172,7 @@ def convert_name(name):
 
 
 def generate_all_message(col, i):
-    name, total, new, death, new_death, active, recover = [col[j][1][i] for j in range(0, 7)]
+    name, total, new, death, new_death, recover, active = [col[j][1][i] for j in range(0, 7)]
     name = convert_name(name)
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
@@ -186,6 +186,7 @@ def get_message_by_country(col, name):
 
 def get_data(top_k):
     col, last_updated = crawler()
+    print([c[0] for c in col])
     if top_k == -1:
         top_k = len(col[0][1])
     msg = "TOP {} NƠI CÓ DỊCH NGUY HIỂM NHẤT.\n\n".format(top_k)
