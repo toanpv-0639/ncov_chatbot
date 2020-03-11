@@ -17,7 +17,7 @@ def get_newest_health():
 
 def check_title(title):
     # Check title is valid
-    if "ca nhiễm" in title and "nCoV" in title:
+    if "ca nhiễm" in title or "dương tính" in title and "nCoV" in title:
         return True
     return False
 
@@ -31,5 +31,4 @@ def check_news(href, title):
         Page(href=href, title=title).save()
         return True
     return False
-
 
