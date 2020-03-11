@@ -1,6 +1,9 @@
-import requests
 import json
+
+import requests
+
 from backend.settings import CHATWORK_API_TOKEN
+
 
 class Chatwork():
     # Token Header key
@@ -18,3 +21,6 @@ class Chatwork():
 
     def reply_message(self, account_id, room_id, message_id, message):
         return "[rp aid={%ld} to={%ld}-{%ld}]\n%s" % (account_id, room_id, message_id, message)
+
+    def notice_message(self, title, content):
+        return """TO ALL >>>[info][title]{}[/title]{}[/info]""".format(title, content)

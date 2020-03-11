@@ -45,6 +45,8 @@ FB_TOKEN = env('FB_TOKEN')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+ROOMID_NOTICE = env('ROOMID_NOTICE')
+
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webhook'
 ]
 
 MIDDLEWARE = [
