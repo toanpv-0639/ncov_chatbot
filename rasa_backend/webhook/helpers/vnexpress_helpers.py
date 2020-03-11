@@ -17,9 +17,7 @@ def get_newest_health():
 
 def check_title(title):
     # Check title is valid
-    if "ca nhiễm" in title and "Việt Nam" in title:
-        return True
-    if "âm tính" in title or "dương tính" in title or "nghi nhiễm" in title:
+    if "âm tính" in title or "dương tính" in title or "nghi nhiễm" in title or "ca nhiễm" in title:
         return True
     return False
 
