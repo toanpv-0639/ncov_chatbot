@@ -23,7 +23,7 @@ def check_title(title):
 
 def check_news(href, title):
     # Check news exist in database. When exist not send message
-    page = Page.objects.filter(href=href).first()
+    page = Page.objects.filter(title=title).first()
     if page:
         return False
     # Check title when not exist in database
