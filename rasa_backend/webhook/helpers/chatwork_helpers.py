@@ -20,7 +20,7 @@ class Chatwork():
         return json.loads(req.text)
 
     def reply_message(self, account_id, room_id, message_id, message):
-        return "[rp aid={%ld} to={%ld}-{%ld}]\n%s" % (account_id, room_id, message_id, message)
+        return "[rp aid=%ld to=%ld-%ld]\n%s" % (account_id, room_id, message_id, message)
 
     def notice_message(self, title, content):
         return """TO ALL >>>[info][title]{}[/title]{}[/info]""".format(title, content)
