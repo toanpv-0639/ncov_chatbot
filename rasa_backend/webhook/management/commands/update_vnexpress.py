@@ -12,6 +12,7 @@ class Command(BaseCommand):
         href, title = get_newest_health()
         if check_news(href, title):
             content = "Link chi tiết: {}".format(href)
-            chatwork.send_message(room_id=ROOMID_NOTICE,
-                                  message=chatwork.notice_message(title, content))
+            for room_id in ROOMID_NOTICE:
+                chatwork.send_message(room_id=room_id,
+                                      message=chatwork.notice_message(title, content))
         self.stdout.write(self.style.SUCCESS('Update VnExpress successfully'))
