@@ -117,9 +117,10 @@ maps = {
     "Total:": "Toàn bộ:"
 }
 
+url = 'https://www.worldometers.info/coronavirus/#countries'
+
 @cached(cache=TTLCache(maxsize=10240, ttl=300))
 def crawler():
-    url = 'https://www.worldometers.info/coronavirus/#countries'
     # Create a handle, page, to handle the contents of the website
     page = requests.get(url)
     # Store the contents of the website under doc
@@ -176,7 +177,9 @@ def generate_all_message(col, i):
     name = convert_name(name)
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
-    return "{}: 😷 {} [{}], 💀 {} [{}], 💊 {}\n".format(name, total, new, death, new_death, recover)
+    death_ratio = round(death / total * 100)
+    recover_ratio = round(recover / total * 100)
+    return "{}: 😷 {} [{}], 💀 {} [{} {}%], 💊 {} [{}%]\n".format(name, total, new, death, new_death, death_ratio, recover, recover_ratio)
 
 def get_message_by_country(col, name):
     for i, c in enumerate(col):
@@ -195,8 +198,9 @@ def get_data(top_k):
     msg += "=================:\n"
     msg += generate_all_message(col, col[0][1].index('Vietnam'))
     msg += "=================:\n"
-    msg += generate_all_message(col, len(col[0][1]) - 1)
+    msg += generate_all_message(col, col[0][1].index('Total:'))
     msg += "\nCập nhật mới nhất vào {}".format(last_updated)
+    msg += "\n\nNguồn tham khảo: {}".format(url)
     return msg
 
 
