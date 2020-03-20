@@ -177,8 +177,8 @@ def generate_all_message(col, i):
     name = convert_name(name)
     new = new if new else "+0"
     new_death = new_death if new_death else "+0"
-    death_ratio = round(death / total * 100)
-    recover_ratio = round(recover / total * 100)
+    death_ratio = round(death / total * 100, 2)
+    recover_ratio = round(recover / total * 100, 2)
     return "{}: 😷 {} [{}], 💀 {} [{} {}%], 💊 {} [{}%]\n".format(name, total, new, death, new_death, death_ratio, recover, recover_ratio)
 
 def get_message_by_country(col, name):
