@@ -178,31 +178,20 @@ def get_data(top_k):
 
 
 def handle_data(intent, top_k):
-    intent_map = {
-        'ask_death': 'deaths',
-        'ask_resolve': 'recovered',
-        'ask_confirm': 'confirmed',
-        'ask_all': 'all',
-        'fallback': 'fallback'
-    }
-    if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
-        return get_data(top_k)
-    # When fallback
-    return "Chatbot chưa xử lý được nội dung bạn nói."
-    # try:
-    #     intent_map = {
-    #         'ask_death': 'deaths',
-    #         'ask_resolve': 'recovered',
-    #         'ask_confirm': 'confirmed',
-    #         'ask_all': 'all',
-    #         'fallback': 'fallback'
-    #     }
-    #     if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
-    #         return get_data(top_k)
-    #     # When fallback
-    #     return "Chatbot chưa xử lý được nội dung bạn nói."
-    # except:
-    #     return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
+    try:
+        intent_map = {
+            'ask_death': 'deaths',
+            'ask_resolve': 'recovered',
+            'ask_confirm': 'confirmed',
+            'ask_all': 'all',
+            'fallback': 'fallback'
+        }
+        if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
+            return get_data(top_k)
+        # When fallback
+        return "Chatbot chưa xử lý được nội dung bạn nói."
+    except:
+        return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
 
 
 print(handle_data('ask_all', 30))
