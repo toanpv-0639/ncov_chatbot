@@ -48,7 +48,7 @@ maps = {
     "Denmark": "Đan mạch",
     "San Marino": "San Marino",
     "Czechia": "Cộng hòa Séc",
-    "Israel": "srael",
+    "Israel": "Israel",
     "Portugal": "Bồ Đào Nha",
     "Finland": "Phần Lan",
     "Vietnam": "Việt Nam Vô Địch",
