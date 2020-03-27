@@ -155,7 +155,7 @@ def generate_one_message(row):
     name = convert_name(row.name)
     death_ratio = round(death / total * 100, 2)
     recover_ratio = round(recover / total * 100, 2)
-    return "{}: 😷 {} [+{}], 💀 {} [+{} {}%], 💊 {} [{}%]\n".format(name, int(total), int(new), int(death), int(new_death), death_ratio,
+    return "{}: 😷 {} [{}], 💀 {} [{} {}%], 💊 {} [{}%]\n".format(name, int(total), new, int(death), new_death, death_ratio,
                                                                   int(recover), recover_ratio)
 
 
@@ -178,20 +178,31 @@ def get_data(top_k):
 
 
 def handle_data(intent, top_k):
-    try:
-        intent_map = {
-            'ask_death': 'deaths',
-            'ask_resolve': 'recovered',
-            'ask_confirm': 'confirmed',
-            'ask_all': 'all',
-            'fallback': 'fallback'
-        }
-        if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
-            return get_data(top_k)
-        # When fallback
-        return "Chatbot chưa xử lý được nội dung bạn nói."
-    except:
-        return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
+    intent_map = {
+        'ask_death': 'deaths',
+        'ask_resolve': 'recovered',
+        'ask_confirm': 'confirmed',
+        'ask_all': 'all',
+        'fallback': 'fallback'
+    }
+    if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
+        return get_data(top_k)
+    # When fallback
+    return "Chatbot chưa xử lý được nội dung bạn nói."
+    # try:
+    #     intent_map = {
+    #         'ask_death': 'deaths',
+    #         'ask_resolve': 'recovered',
+    #         'ask_confirm': 'confirmed',
+    #         'ask_all': 'all',
+    #         'fallback': 'fallback'
+    #     }
+    #     if intent_map[intent] in ["deaths", "recovered", "confirmed", 'all']:
+    #         return get_data(top_k)
+    #     # When fallback
+    #     return "Chatbot chưa xử lý được nội dung bạn nói."
+    # except:
+    #     return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
 
 
 print(handle_data('ask_all', 30))
