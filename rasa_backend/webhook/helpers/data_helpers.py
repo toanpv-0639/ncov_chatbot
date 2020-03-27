@@ -4,6 +4,8 @@ import lxml.html as lh
 import requests
 from cachetools import cached, TTLCache
 from googletrans import Translator
+from bs4 import BeautifulSoup
+import pandas as pd
 
 from webhook.helpers.date_helpers import to_date
 
@@ -46,7 +48,7 @@ maps = {
     "Denmark": "Đan mạch",
     "San Marino": "San Marino",
     "Czechia": "Cộng hòa Séc",
-    "Israel": "Người israel",
+    "Israel": "srael",
     "Portugal": "Bồ Đào Nha",
     "Finland": "Phần Lan",
     "Vietnam": "Việt Nam Vô Địch",
@@ -125,82 +127,53 @@ def crawler():
     page = requests.get(url)
     # Store the contents of the website under doc
     doc = lh.fromstring(page.content)
-    # Parse data that are stored between <tr>..</tr> of HTML
-    tr_elements = doc.xpath('//tr')
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    table = soup.find('table', attrs={'id': 'main_table_countries_today'})
+    # Convert to dataframe
+    df = pd.read_html(str(table))[0]
+    df = df.fillna(0)
+    final_df = df.sort_values(by=['TotalCases'], ascending=False)
+    final_df.set_index('Country,Other', inplace=True)
     # Parse the last update time
     last_updated = re.findall(r'Last updated:.+? GMT', doc.text_content())[0]
     last_updated = last_updated.strip('Last updated:')
     last_updated = to_date(last_updated)
 
-    col = []
-    i = 0
-    # Insert name of regions
-    for t in tr_elements[0]:
-        try:
-            name = t.text_content()
-            col.append((name, []))
-        except Exception:
-            pass
-    # Since out first row is the header, data is stored on the second row onwards
-    for j in range(1, len(tr_elements)):
-        # T is our j'th row
-        T = tr_elements[j]
-        # i is the index of our column
-        i = 0
-        # Iterate through each element of the row
-        for t in T.iterchildren():
-            try:
-                data = t.text_content().strip()
-                if i in range(1, 6) and i not in [2, 4]:
-                    data = ''.join(c for c in data if c.isdigit())
-                    if data:
-                        data = int(data)
-                    else:
-                        data = 0
-                # Append the data to the empty list of the i'th column
-                col[i][1].append(data)
-                # Increment i for the next column
-                i += 1
-            except Exception:
-                pass
-    return col, last_updated
+    return final_df, last_updated
 
 
 def convert_name(name):
-    if name in maps.keys():
-        return maps[name]
-    return translator.translate(name, dest='vi').text
+    return maps.get(name, name)
 
-
-def generate_all_message(col, i):
-    name, total, new, death, new_death, recover, active = [col[j][1][i] for j in range(0, 7)]
-    name = convert_name(name)
-    new = new if new else "+0"
-    new_death = new_death if new_death else "+0"
+def generate_one_message(row):
+    new = row['NewCases']
+    total = row['TotalCases']
+    death = row['TotalDeaths']
+    new_death = row['NewDeaths']
+    recover = row['TotalRecovered']
+    name = convert_name(row.name)
     death_ratio = round(death / total * 100, 2)
     recover_ratio = round(recover / total * 100, 2)
-    return "{}: 😷 {} [{}], 💀 {} [{} {}%], 💊 {} [{}%]\n".format(name, total, new, death, new_death, death_ratio, recover, recover_ratio)
+    return "{}: 😷 {} [+{}], 💀 {} [+{} {}%], 💊 {} [{}%]\n".format(name, int(total), int(new), int(death), int(new_death), death_ratio,
+                                                                  int(recover), recover_ratio)
 
-def get_message_by_country(col, name):
-    for i, c in enumerate(col):
-        if c[0] == name:
-            return generate_all_message(col, i)
-    return 0
 
 def get_data(top_k):
     col, last_updated = crawler()
-    print([c[0] for c in col])
+    total = len(col) - 2
     if top_k == -1:
-        top_k = len(col[0][1])
-    msg = "TOP {} NƠI CÓ DỊCH NGUY HIỂM NHẤT.\n\n".format(top_k)
+        top_k = total
+    msg = "TOP {}/{} NƠI CÓ DỊCH NGUY HIỂM NHẤT.\n\n".format(top_k, total)
     for i in range(top_k):
-        msg += generate_all_message(col, i)
+        msg += generate_one_message(col.iloc[i + 1])
     msg += "=================:\n"
-    msg += generate_all_message(col, col[0][1].index('Vietnam'))
+    msg += generate_one_message(col.loc['Vietnam'])
     msg += "=================:\n"
-    msg += generate_all_message(col, col[0][1].index('Total:'))
+    msg += generate_one_message(col.loc['Total:'])
     msg += "\nCập nhật mới nhất vào {}".format(last_updated)
     msg += "\n\nNguồn tham khảo: {}".format(url)
+
     return msg
 
 
@@ -221,5 +194,5 @@ def handle_data(intent, top_k):
         return "Đã có lỗi xảy ra trong khi cập nhật dữ liệu. Bạn vui lòng thử lại sau"
 
 
-print(handle_data('ask_all', 20))
+print(handle_data('ask_all', 30))
 

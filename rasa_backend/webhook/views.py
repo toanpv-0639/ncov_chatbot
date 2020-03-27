@@ -30,7 +30,7 @@ def handle_chatwork_payload(payload):
             account_id=int(payload['webhook_event']['from_account_id']),
             room_id=int(payload['webhook_event']['room_id']),
             message_id=int(payload['webhook_event']['message_id']),
-            message=get_bot_response(message_body, 20)
+            message=get_bot_response(message_body, 30)
         )
         chatwork.send_message(room_id=payload['webhook_event']['room_id'], message=message_reply_chatwork)
 
