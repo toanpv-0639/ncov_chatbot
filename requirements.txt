@@ -1,6 +1,6 @@
 rasa==1.7.2
 scapy
-Django==2.2.0
+Django==2.2.18
 requests==2.22.0
 python-env==1.0.0
 lxml==4.5.0
